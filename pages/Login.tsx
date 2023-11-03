@@ -21,6 +21,7 @@ import {
   ToastDescription,
   VStack,
   useToast,
+  Spinner,
 } from '@gluestack-ui/themed';
 import {AlertCircleIcon, Menu} from 'lucide-react-native';
 import React, {useContext, useEffect, useState} from 'react';
@@ -37,8 +38,8 @@ type Props = {
 const LoginPage = ({navigation}: Props) => {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const {login, status} = useContext(AuthContext);
-  console.dir(status);
+  const {login, status, isLoading: isAuthLoading} = useContext(AuthContext);
+
   const {
     handleSubmit,
     control,
@@ -77,6 +78,25 @@ const LoginPage = ({navigation}: Props) => {
       throw err;
     }
   });
+
+  if (isAuthLoading) {
+    return (
+      <SafeAreaView>
+        <VStack
+          gap="$3"
+          w="100%"
+          p="$6"
+          alignItems={'center'}
+          justifyContent={'center'}
+          bg="$white"
+          minHeight={Dimensions.get('window').height}>
+          <Center>
+            <Spinner size="large" />
+          </Center>
+        </VStack>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView>
