@@ -21,12 +21,12 @@ export const AuthContext = React.createContext<ContextType>({
   getCurrentStatus: () => undefined,
   token: ``,
   status: {},
-  isLoading: false,
+  isLoading: true,
 });
 
 const AuthProvider = ({children}: Props) => {
   const [status, setStatus] = useState(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [token, setToken] = useState<string | null>(null);
 
   const login = async (email: string, password: string) => {
@@ -66,7 +66,6 @@ const AuthProvider = ({children}: Props) => {
   useEffect(() => {
     async function hydrate() {
       try {
-        setIsLoading(true);
         // get token logic
         const currentToken = await AsyncStorage.getItem(
           '@authentication-poc-API_TOKEN',
@@ -83,7 +82,7 @@ const AuthProvider = ({children}: Props) => {
             Authorization: `Bearer ${currentToken}`,
           },
         });
-        console.dir(data);
+
         setStatus(data);
         setIsLoading(false);
       } catch (err) {

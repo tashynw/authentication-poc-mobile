@@ -79,7 +79,7 @@ const LoginPage = ({navigation}: Props) => {
     }
   });
 
-  if (isAuthLoading) {
+  if (isAuthLoading || status) {
     return (
       <SafeAreaView>
         <VStack
